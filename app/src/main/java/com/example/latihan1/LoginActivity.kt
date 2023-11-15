@@ -1,46 +1,42 @@
 package com.example.latihan1
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.latihan1.databinding.ActivityLoginLinearBinding
 
 
 class LoginActivity: AppCompatActivity() {
-    lateinit var btnlogin: Button
-    lateinit var etEmail: EditText
-    lateinit var etPassword: EditText
+    lateinit var binding: ActivityLoginLinearBinding
     lateinit var email: String
     lateinit var password: String
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_linear)
+        binding = ActivityLoginLinearBinding.inflate(layoutInflater)
+        Log.d("PRINT-LOG", "1")
+        Log.d("PRINT-LOG", "2")
 
-        btnlogin = findViewById(R.id.btn_login)
-        etEmail = findViewById(R.id.et_email)
-        etPassword = findViewById(R.id.et_password)
+        setContentView(binding.root)
+        binding.btnLogin.setOnClickListener {
+            email = binding.etEmail.text.toString()
+            password = binding.etPassword.text.toString()
+            Log.d("PRINT-LOG", email)
 
-        btnlogin.setOnClickListener {
-            email = etEmail.text.toString()
-            password = etPassword.text.toString()
-
-            if (email.isNullOrEmpty() && password.isNullOrEmpty()) {
-                Toast.makeText(
-                    applicationContext,
-                    "Email atau password masih kosong",
-                    Toast.LENGTH_SHORT
-                ).show()
+            if (isValidate(email, password)) {
+                Toast.makeText( applicationContext, "Email atau password masih kosong", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(
-                    applicationContext,
-                    "Sukses Anda sudah memasukan Email dan Password",
-                    Toast.LENGTH_SHORT
-                ).show()
-
+                Toast.makeText(applicationContext,"Sukses Anda sudah memasukan Email dan Password", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    fun isValidate(email: String, password: String): Boolean{
+        if (email.isNullOrEmpty() || password.isNullOrEmpty()) {
+            return false
+        } else {
+            return true
         }
     }
 }
